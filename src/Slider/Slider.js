@@ -3,6 +3,8 @@ import * as THREE from "three"
 import {TweenMax, TimelineMax} from "gsap"
 
 import './Slider.scss'
+import Slide from "./Slide/Slide"
+import SliderNav from "./SliderNav/SliderNav"
 
 var WheelIndicator = require('wheel-indicator')
 const style = {
@@ -114,11 +116,9 @@ class App extends Component {
 
 
 
-class Slider extends React.Component {
+export default class Slider extends React.Component {
     constructor(props){
         super(props)
-
-        
         this.images = [
             './img/bg/bg1.jpg',
             './img/bg/bg2.jpg',
@@ -164,7 +164,7 @@ class Slider extends React.Component {
     setInitStyles() {
         this.slides.forEach((slide, index) => {
             if (index === 0){
-                const currentText = slide.querySelectorAll('.slider__text-line div')
+                const currentText = slide.querySelectorAll('.slide-text-line div')
                 TweenMax.fromTo(currentText, 2, {yPercent: 110}, {yPercent: 0, ease: 'power3.out', delay: 0.5}, )
                 return
             } 
@@ -196,8 +196,6 @@ class Slider extends React.Component {
     } 
 
     cameraSetup = () => {
-        console.log('fds');
-        
         this.camera = new THREE.OrthographicCamera(
             this.el.offsetWidth / -2,
             this.el.offsetWidth / 2,
@@ -213,7 +211,6 @@ class Slider extends React.Component {
 
     sceneSetup() {
         this.scene = new THREE.Scene()
-        this.clock = new THREE.Clock(true)
 
         this.renderer = new THREE.WebGLRenderer({alpha: true})
         this.renderer.setPixelRatio(window.devicePixelRatio)
@@ -227,17 +224,8 @@ class Slider extends React.Component {
         this.textures = []
         this.images.forEach((image, index) => {
             const texture = loader.load(image, this.rend)
-
             texture.minFilter = THREE.LinearFilter
             texture.generateMipmaps = false
-
-            if (index === 0 && this.mat) {
-                this.mat.uniforms.size.value = [
-                    texture.image.naturalWidth,
-                    texture.image.naturalHeight
-                ]
-            }
-
             this.textures.push(texture)
         })
 
@@ -340,8 +328,8 @@ class Slider extends React.Component {
 
 
 
-        const currentText = currentSlide.querySelectorAll('.slider__text-line div')
-        const nextText = nextSlide.querySelectorAll('.slider__text-line div')
+        const currentText = currentSlide.querySelectorAll('.slide-text-line div')
+        const nextText = nextSlide.querySelectorAll('.slide-text-line div')
 
         const currentBullet = this.bullets[this.state.numberCurrentSlide]
         const nextBullet = this.bullets[this.state.numberNextSlide]
@@ -448,67 +436,27 @@ class Slider extends React.Component {
     render() {
         return (
             <div className="slider" ref={ref => (this.el = ref)}>
-                <div className="slider__inner" ref={ref => (this.inner = ref)}></div>
-                <div className="slide">
-                    <div className="slider__text">
-                      <div className="slider__text-line"><div>Хей, меня</div></div>
-                      <div className="slider__text-line"><div>зoвут Василий</div></div>
-                    </div>
-                </div>
-                <div className="slide">
-                    <div className="slider__text">
-                        <div className="slider__text-line"><div>я вырос</div></div>
-                        <div className="slider__text-line"><div>в маленкой деревушке</div></div>
-                        <div className="slider__text-line"><div>алтайского края</div></div>
-                    </div>
-                </div>
-            
-            <div className="slide">
-                <div className="slider__text">
-                    <div className="slider__text-line"><div>Мне нравится создавать</div></div>
-                    <div className="slider__text-line"><div>интерактивные приложения</div></div>
-                    <div className="slider__text-line"><div>на JavaScript с прицелом</div></div>
-                    <div className="slider__text-line"><div>на анимированный контент.</div></div>
-                  </div>
-            </div>
-            <div className="slide"></div>
-            <nav className="slider__nav">
-                <div className="arrow arrow_up">
-                  <img src="./img/arrow.svg" alt="scroll"/>
-                </div>
-                <div className="slider-bullet">
-                  <span className="slider-bullet__text">01</span>
-                  <span className="slider-bullet__line"></span>
-                </div>
-                 <div className="slider-bullet">
-                  <span className="slider-bullet__text">02</span>
-                  <span className="slider-bullet__line"></span>
-                </div>
-                 <div className="slider-bullet">
-                  <span className="slider-bullet__text">03</span>
-                  <span className="slider-bullet__line"></span>
-                </div>
-                 <div className="slider-bullet">
-                  <span className="slider-bullet__text">04</span>
-                  <span className="slider-bullet__line"></span>
-                </div>
-                <div className="arrow arrow_down">
-                  <img src="./img/arrow.svg" alt="scroll"/>
-                </div>
-            </nav>
+                <div className="slider__inner" ref={ref => this.inner = ref}></div>
+                <Slide texts={[
+                    'Хей, меня',
+                    'зoвут Василий'
+                ]}/>
+                <Slide texts={[
+                    'я вырос',  
+                    'в маленкой деревушке', 
+                    'алтайского края'
+                ]}/>
+                <Slide texts={[
+                    'Мне нравится создавать',
+                    'интерактивные приложения', 
+                    'на JavaScript с прицелом', 
+                    'на анимированный контент.'
+                ]}/>
+            <Slide/>
+            <SliderNav/>
         </div>
         )
     }
 }
-class Container extends React.Component {
-  
 
-  render() {
- 
-    return (
-        <Slider/>
-    )
-  }
-}
 
-export default Container

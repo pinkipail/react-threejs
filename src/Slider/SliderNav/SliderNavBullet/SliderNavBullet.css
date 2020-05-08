@@ -1,0 +1,36 @@
+.slider-nav .arrow {
+    width: 30px;
+    height: auto;
+    opacity: 0.5;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+.slider-nav .arrow:hover {
+    opacity: 1;
+}
+.slider-nav .arrow_up {
+    transform: rotate(180deg);
+}
+
+.slider-bullet {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.slider-bullet__text {
+    color: #fff;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+.slider-bullet__text:hover {
+    opacity: 1;
+}
+
+.slider-bullet__line {
+    background-color: #fff;
+    height: 1px;
+    width: 1rem;
+    position: relative;
+}
