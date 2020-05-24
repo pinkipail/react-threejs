@@ -1,0 +1,40 @@
+.distorted-link {
+    flex: none;
+    padding-bottom: 0.5rem;
+
+    position: relative;
+    line-height: 1;
+    color: #fff;
+
+    .distorted-link-inner {
+        display: block;
+        position: relative;
+        outline: 100px solid transparent;
+    }
+    
+    .distorted-link-deco {
+        outline: 100px solid transparent;
+        opacity: 0;
+        position: absolute;
+        pointer-events: none;
+        bottom: 0;
+        left: 0;
+        height: 1px; 
+        width: 100%;
+        background: #fff;
+        
+    }
+
+
+
+    
+  
+    &:hover .distorted-link-deco {
+        opacity: 1;
+    }
+    
+}
+
+.active .distorted-link-deco{
+    opacity: 1;
+}
